@@ -1,7 +1,7 @@
 import 'package:dicoding_wisata_bandung/model/tourism_place.dart';
 import 'package:flutter/material.dart';
 
-var infTxtStyle= const TextStyle(fontFamily: 'Futura');
+var infTxtStyle= const TextStyle(fontFamily: 'Futura', color: Colors.black, decoration: TextDecoration.none);
 
 class DetailScreen extends StatelessWidget {
   final TourismPlace place;
@@ -42,10 +42,7 @@ class DetailScreen extends StatelessWidget {
                 child: Text(
                   place.name,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: infTxtStyle.copyWith(fontSize: 30.0, fontWeight: FontWeight.bold),
                 ),
               ),
               Container(
