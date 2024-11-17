@@ -1,4 +1,6 @@
+import 'package:dicoding_wisata_bandung/detail_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:dicoding_wisata_bandung/model/tourism_place.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -9,19 +11,44 @@ class MainScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Wisata Bandung'),
       ),
-      body: const Card(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text(
-              'Farm House Lembang',
-              style: TextStyle(fontSize: 16.0),
+      body: ListView.builder(
+        itemBuilder: (context, index) {
+          final TourismPlace place = tourismPlaceList[index];
+                  return InkWell(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => DetailScreen(place: place,),));
+          },
+          child: Card(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Expanded(flex: 2, child: Image.asset(place.imageAsset)),
+                Expanded(
+                  flex: 3,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text(
+                          place.name,
+                          style: const TextStyle(fontSize: 16.0),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(place.location),
+                      ],
+                    ),
+                  ),
+                )
+              ],
             ),
-            SizedBox(height: 10,),
-            Text('Lembang'),
-          ],
-        ),
+          ),
+        );
+        },
+        itemCount: tourismPlaceList.length,
       ),
     );
   }
