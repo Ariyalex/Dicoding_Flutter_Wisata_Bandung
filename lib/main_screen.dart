@@ -11,17 +11,20 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.amber,
         title: Text(
-          'Wisata Bandung. Size: ${MediaQuery.of(context).size.width}',
-          style: infTxtStyle,
+          'Wisata Bandung',
+          style: infTxtStyle.copyWith(color: Colors.white),
         ),
       ),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           if (constraints.maxWidth <= 600) {
             return const TourismPlaceList();
+          } else if (constraints.maxWidth <= 1200) {
+            return const TourismPlaceGrid(gridCount: 4);
           } else {
-            return const TourismPlaceGrid();
+            return const TourismPlaceGrid(gridCount: 6);
           }
         },
       )
@@ -99,47 +102,55 @@ class TourismPlaceList extends StatelessWidget {
 }
 
 class TourismPlaceGrid extends StatelessWidget {
-  const TourismPlaceGrid({super.key});
+  final int gridCount;
+
+  const TourismPlaceGrid({super.key, required this.gridCount});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.all(16.0),
       child: GridView.count(
-        crossAxisCount: 4,
-        children: [
-            Card(
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.zero,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-              Expanded(
-                child: Image.asset(
-                tourismPlaceList[0].imageAsset,
-                fit: BoxFit.cover,
-                ),
+        crossAxisCount: gridCount,
+        crossAxisSpacing: 16.0,
+        mainAxisSpacing: 16.0,
+        children: tourismPlaceList.map((place) {
+          return InkWell(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return DetailScreen(place: place);
+              }));
+            },
+            child: Card(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: Image.asset(
+                      place.imageAsset,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      place.name,
+                      style: const TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
+                    child: Text(place.location),
+                  ),
+                ],
               ),
-              const SizedBox(height: 8),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Text(
-                tourismPlaceList[0].name,
-                style: infTxtStyle.copyWith(fontSize: 16.0, fontWeight: FontWeight.bold),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
-                child: Text(
-                tourismPlaceList[0].location,
-                style: infTxtStyle,
-                ),
-              ),
-              ],
             ),
-            ),
-        ],
+          );
+        }).toList(),
       ),
     );
   }
