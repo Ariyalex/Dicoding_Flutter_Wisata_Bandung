@@ -181,7 +181,7 @@ class _DetailWebPageState extends State<DetailWebPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Wisata Bandung',
+                  'Wisata bandung',
                   style: TextStyle(
                     fontFamily: 'Futura',
                     fontSize: 32.0,
